@@ -1,5 +1,10 @@
-import { generateInsertSQL, generateUpdateSQL } from '../crud';
-import type { DBInstance, DBSchemas, ParserValidator } from '../types';
+import {
+  generateInsertSQL,
+  generateUpdateSQL,
+  type DBInstance,
+  type DBSchemas,
+  type ParserValidator,
+} from 'glhera-db-utils';
 import { PGlite } from '@electric-sql/pglite';
 
 //

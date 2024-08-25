@@ -24,6 +24,8 @@
     "better-sqlite3": "~11.2.1",
     "dotenv": "^16.4.5",
     "esbuild": "^0.23.1",
+    "esbuild-utils": "1.0.0-next.8",
+    "glhera-db-utils": "1.0.0-next.0",
     "pg": "~8.12.0",
     "prettier": "^3.3.3",
     "rollup": "^4.21.0",
@@ -36,6 +38,24 @@
     "dist/index.d.ts",
     "dist/index.js"
   ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./pg": {
+      "types": "./pg/index.d.ts",
+      "default": "./pg/index.js"
+    },
+    "./pglite": {
+      "types": "./pglite/index.d.ts",
+      "default": "./pglite/index.js"
+    },
+    "./better-sqlite3": {
+      "types": "./better-sqlite3/index.d.ts",
+      "default": "./better-sqlite3/index.js"
+    }
+  },
   "types": "dist/index.d.ts",
   "type": "module",
   "packageManager": "pnpm@9.6.0"

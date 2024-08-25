@@ -32,6 +32,12 @@ importers:
       esbuild:
         specifier: ^0.23.1
         version: 0.23.1
+      esbuild-utils:
+        specifier: 1.0.0-next.8
+        version: 1.0.0-next.8
+      glhera-db-utils:
+        specifier: 1.0.0-next.0
+        version: 1.0.0-next.0
       pg:
         specifier: ~8.12.0
         version: 8.12.0
@@ -366,6 +372,9 @@ packages:
   end-of-stream@1.4.4:
     resolution: {integrity: sha512-+uw1inIHVPQoaVuHzRyXd21icM+cnt4CzD5rW+NC1wjOUSTOs+Te7FOv7AhN7vS9x/oIyhLP5PR1H+phQAHu5Q==}
 
+  esbuild-utils@1.0.0-next.8:
+    resolution: {integrity: sha512-fAn1V+8QR2YSnO54m5F26nJ0zQrxHCedTW89FI1e6FUp9/WPQYNRQHXmmB0XzwOHFPNLLYD7iMhkZ+R+Zb+DAg==}
+
   esbuild@0.23.1:
     resolution: {integrity: sha512-VVNz/9Sa0bs5SELtn3f7qhJCDPCF5oMEl5cO9/SSinpE9hbPVvxbd572HH5AKiP7WD8INO53GgfDDhRjkylHEg==}
     engines: {node: '>=18'}
@@ -400,6 +409,9 @@ packages:
 
   github-from-package@0.0.0:
     resolution: {integrity: sha512-SyHy3T1v2NUXn29OsWdxmK6RwHD+vkj3v8en8AOBZ1wBQ/hCAQ5bAQTD02kW4W9tUp/3Qh6J8r9EvntiyCmOOw==}
+
+  glhera-db-utils@1.0.0-next.0:
+    resolution: {integrity: sha512-Qwv74GPgilclR2BhlpZSRVW7Kv+TjbHAq7p7nZMw0X34WfP3r7OCbK0jNtFLUpyAQ9iSIKnDMolpwD+b50tFug==}
 
   has-flag@3.0.0:
     resolution: {integrity: sha512-sKJf1+ceQBr4SMkvQnBDNDtf4TXpVhVGateu0t918bl30FnbE2m4vNLX+VWe/dpjlb+HugGYzW7uQXH98HPEYw==}
@@ -626,6 +638,18 @@ packages:
 
   wrappy@1.0.2:
     resolution: {integrity: sha512-l4Sp/DRseor9wL6EvV2+TuQn63dMkPjZ/sp9XkghTEbV9KlPS1xUsZ3u7/IQO4wxtcFB4bgpQPRcR3QCvezPcQ==}
+
+  ws@8.18.0:
+    resolution: {integrity: sha512-8VbfWfHLbbwu3+N6OKsOMpBdT4kXPDDB9cJk2bJ6mh9ucxdlnNvH1e+roYkKmN9Nxw2yjz7VzeO9oOz2zJ04Pw==}
+    engines: {node: '>=10.0.0'}
+    peerDependencies:
+      bufferutil: ^4.0.1
+      utf-8-validate: '>=5.0.2'
+    peerDependenciesMeta:
+      bufferutil:
+        optional: true
+      utf-8-validate:
+        optional: true
 
   xtend@4.0.2:
     resolution: {integrity: sha512-LKYU1iAXJXUgAXn9URjiu+MWhyUXHsvfp7mcuYm9dSUKK0/CjtrUwFAxD82/mCWbtLsGjFIad0wIsod4zrTAEQ==}
@@ -855,6 +879,14 @@ snapshots:
     dependencies:
       once: 1.4.0
 
+  esbuild-utils@1.0.0-next.8:
+    dependencies:
+      esbuild: 0.23.1
+      ws: 8.18.0
+    transitivePeerDependencies:
+      - bufferutil
+      - utf-8-validate
+
   esbuild@0.23.1:
     optionalDependencies:
       '@esbuild/aix-ppc64': 0.23.1
@@ -902,6 +934,8 @@ snapshots:
       resolve-pkg-maps: 1.0.0
 
   github-from-package@0.0.0: {}
+
+  glhera-db-utils@1.0.0-next.0: {}
 
   has-flag@3.0.0:
     optional: true
@@ -1142,6 +1176,8 @@ snapshots:
   util-deprecate@1.0.2: {}
 
   wrappy@1.0.2: {}
+
+  ws@8.18.0: {}
 
   xtend@4.0.2: {}
 

@@ -4,3 +4,7 @@ dist
 .env
 
 tests/results
+
+pg/*
+pglite/*
+better-sqlite3/*
