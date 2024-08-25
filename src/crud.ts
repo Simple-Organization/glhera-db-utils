@@ -68,13 +68,16 @@ export function generateInsertSQL(
   table: string,
   data: DBObject,
   returning: string[],
+  placeholder: '$' | '?' = '$',
 ): [sql: string, values: (string | number | null)[]] {
   const _data = dbParse('data', data);
 
   const keys = Object.keys(_data);
   const values = Object.values(_data);
 
-  const placeholders = values.map((_, i) => '$' + (i + 1)).join(', ');
+  const placeholders = values
+    .map((_, i) => (placeholder === '$' ? '$' + (i + 1) : '?'))
+    .join(', ');
   let sql = `INSERT INTO ${table} (${keys.join(
     ', ',
   )}) VALUES (${placeholders})`;
@@ -109,25 +112,42 @@ export function generateUpdateSQL(
   table: string,
   data: DBObject,
   where: DBObject,
+  placeholder: '$' | '?' = '$',
 ): [sql: string, values: (string | number | null)[]] {
   const _data = dbParse('data', data);
   const values = Object.values(_data);
   const dataSQL = Object.keys(_data)
-    .map((key) => key + ' = $' + (values.indexOf(_data[key]) + 1))
+    .map((key) => updateMapFunction(key, values, _data, placeholder))
     .join(', ');
 
   const _where = dbParse('where', where);
   const whereValues = Object.values(_where);
   const whereSQL = Object.keys(_where)
-    .map(
-      (key) =>
-        key + ' = $' + (values.length + whereValues.indexOf(_where[key]) + 1),
+    .map((key) =>
+      updateMapFunction(key, whereValues, _where, placeholder, values.length),
     )
     .join(' AND ');
 
   const sql = `UPDATE ${table} SET ${dataSQL} WHERE ${whereSQL};`;
 
   return [sql, [...values, ...whereValues]];
+}
+
+//
+//
+
+function updateMapFunction(
+  key: string,
+  values: (string | number | null)[],
+  d: DBObject,
+  placeholder: '$' | '?',
+  adicional = 0,
+): string {
+  return (
+    key +
+    ' = ' +
+    (placeholder === '$' ? '$' + (values.indexOf(d[key]) + adicional + 1) : '?')
+  );
 }
 
 // /**

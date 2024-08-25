@@ -38,7 +38,7 @@ export class PGDBInstance<Schemas extends DBSchemas>
   async single<R>(
     sql: string,
     values?: (string | number | null)[] | undefined,
-  ): Promise<R> {
+  ): Promise<R | undefined> {
     const result = await this.driver.query(sql, values);
 
     if (result.rows.length > 1) {

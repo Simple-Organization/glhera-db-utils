@@ -1,11 +1,11 @@
 import { generateInsertSQL, generateUpdateSQL } from '../crud';
 import type { DBInstance, DBSchemas, ParserValidator } from '../types';
-import { PGlite } from '@electric-sql/pglite';
+import { Database } from 'better-sqlite3';
 
 //
 //
 
-export class PGLiteDBInstance<Schemas extends DBSchemas>
+export class BetterSqlite3DBInstance<Schemas extends DBSchemas>
   implements DBInstance<Schemas>
 {
   //
@@ -13,10 +13,10 @@ export class PGLiteDBInstance<Schemas extends DBSchemas>
 
   /**
    * Creates a new instance of the database and returns an object with various methods for interacting with the postgres database.
-   * @param driver - The `PGlite` object used to connect to the database.
+   * @param driver - The `better-sqlite3.Database` object used to connect to the database.
    */
   constructor(
-    public driver: PGlite,
+    public driver: Database,
     public insertValidator?: ParserValidator,
     public updateValidator?: ParserValidator,
   ) {}
@@ -26,11 +26,9 @@ export class PGLiteDBInstance<Schemas extends DBSchemas>
 
   async rows<R>(
     sql: string,
-    values?: (string | number | null)[] | undefined,
+    values: (string | number | null)[] = [],
   ): Promise<R[]> {
-    const result = await this.driver.query(sql, values);
-
-    return result.rows as any;
+    return this.driver.prepare<any[], R>(sql).all(...values);
   }
 
   //
@@ -38,15 +36,9 @@ export class PGLiteDBInstance<Schemas extends DBSchemas>
 
   async single<R>(
     sql: string,
-    values?: (string | number | null)[] | undefined,
+    values: (string | number | null)[] = [],
   ): Promise<R | undefined> {
-    const result = await this.driver.query<R>(sql, values);
-
-    if (result.rows.length > 1) {
-      throw new Error('More than one row returned');
-    }
-
-    return result.rows[0];
+    return this.driver.prepare<any[], R>(sql).get(...values);
   }
 
   //
@@ -73,14 +65,19 @@ export class PGLiteDBInstance<Schemas extends DBSchemas>
       table as string,
       parsed,
       returning as any,
+      '?',
     );
 
-    const result = await this.driver.query(sql, dbValues);
+    const statement = this.driver.prepare(sql);
+
+    if (Array.isArray(returning) && returning.length) {
+      return statement.get(...dbValues) as any;
+    }
 
     //
     //
 
-    return result.rows[0] as any;
+    return statement.run(...dbValues) as any;
   }
 
   //
@@ -102,10 +99,17 @@ export class PGLiteDBInstance<Schemas extends DBSchemas>
       parsedWhere = this.updateValidator(table as any, where);
     }
 
-    const [sql, dbValues] = generateUpdateSQL(table as string, data, where);
+    const [sql, dbValues] = generateUpdateSQL(
+      table as string,
+      data,
+      where,
+      '?',
+    );
 
-    const result = await this.driver.query(sql, dbValues);
+    console.log(sql, dbValues);
 
-    return result.affectedRows ?? null;
+    const result = this.driver.prepare(sql).run(...dbValues);
+
+    return result.changes;
   }
 }

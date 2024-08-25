@@ -34,7 +34,7 @@ export interface IDBClient {
   single: <R>(
     sql: string,
     values?: (string | number | null)[] | undefined,
-  ) => Promise<R>;
+  ) => Promise<R | undefined>;
 }
 
 //
