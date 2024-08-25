@@ -2,7 +2,7 @@
 
 Biblioteca simples para auxiliar o uso de `Raw SQL`, provendo tipagem para métodos simples de `insert` e `update`, mas essa biblioteca é muito simples, não foi desenvolvida para ser um completo `query builder`, só para `insert` e `update` de uma linha
 
-Possui `wrappers` para `node-postgres`
+Possui `wrappers` para `node-postgres` (pg), `@electric-sql/pglite` (pglite) e `better-sqlite3`
 
 ## Exemplo
 
@@ -33,7 +33,15 @@ const pgDB = new PGDBInstance<DBTypes>(client);
 console.log(pgDB.driver);
 ```
 
-Integrando com alguma biblioteca como o `Zod`
+## Banco de dados suportados no momento
+
+```ts
+import { PGDBInstance } from 'glhera-db-utils/pg';
+import { PGLiteDBInstance } from 'glhera-db-utils/pglite';
+import { BetterSqlite3DBInstance } from 'glhera-db-utils/better-sqlite3';
+```
+
+## Integrando com alguma biblioteca como o `Zod`
 
 ```ts
 import { PGDBInstance } from 'glhera-db-utils/pg';
@@ -95,8 +103,6 @@ const pgDB = new PGDBInstance<InferTypes<typeof dbSchemasInsert>>(
 ## ROADMAP
 
 - `wrappers` para
-  - `pglite`
-  - `better-sqlite3`
   - `mysql2`
 
 ## Tests
