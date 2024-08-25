@@ -6,13 +6,7 @@ export type DBSchemas = Record<string, Record<string, any>>;
 //
 //
 
-export type ParserValidator<Schemas extends DBSchemas> = <
-  K extends keyof Schemas,
-  T extends Schemas[K],
->(
-  table: K,
-  values: any,
-) => T;
+export type ParserValidator = (table: string, values: unknown) => unknown;
 
 //
 //

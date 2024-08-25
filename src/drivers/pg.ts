@@ -16,9 +16,9 @@ export class PGDBInstance<Schemas extends DBSchemas>
    * @param driver - The `pg.Client` object used to connect to the database.
    */
   constructor(
-    private driver: pg.Client,
-    public insertValidator?: ParserValidator<Schemas>,
-    public updateValidator?: ParserValidator<Schemas>,
+    public driver: pg.Client,
+    public insertValidator?: ParserValidator,
+    public updateValidator?: ParserValidator,
   ) {}
 
   //
@@ -62,7 +62,7 @@ export class PGDBInstance<Schemas extends DBSchemas>
     if (!this.insertValidator) {
       parsed = values;
     } else {
-      parsed = this.insertValidator(table, values);
+      parsed = this.insertValidator(table as any, values);
     }
 
     //
@@ -97,8 +97,8 @@ export class PGDBInstance<Schemas extends DBSchemas>
       parsedData = data;
       parsedWhere = where;
     } else {
-      parsedData = this.updateValidator(table, data);
-      parsedWhere = this.updateValidator(table, where);
+      parsedData = this.updateValidator(table as any, data);
+      parsedWhere = this.updateValidator(table as any, where);
     }
 
     const [sql, dbValues] = generateUpdateSQL(table as string, data, where);
