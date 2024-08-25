@@ -49,6 +49,17 @@ export class BetterSqlite3DBInstance<Schemas extends DBSchemas>
   //
   //
 
+  async run(
+    sql: string,
+    values: (string | number | null)[] = [],
+  ): Promise<number | null> {
+    const result = this.driver.prepare(sql).run(...values);
+    return result.changes!;
+  }
+
+  //
+  //
+
   async insert<
     K extends keyof Schemas,
     T extends Schemas[K],

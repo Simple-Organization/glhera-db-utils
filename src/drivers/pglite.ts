@@ -57,6 +57,17 @@ export class PGLiteDBInstance<Schemas extends DBSchemas>
   //
   //
 
+  async run(
+    sql: string,
+    values?: (string | number | null)[] | undefined,
+  ): Promise<number | null> {
+    const result = await this.driver.query(sql, values);
+    return result.affectedRows!;
+  }
+
+  //
+  //
+
   async insert<
     K extends keyof Schemas,
     T extends Schemas[K],

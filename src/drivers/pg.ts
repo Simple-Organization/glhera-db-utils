@@ -56,6 +56,17 @@ export class PGDBInstance<Schemas extends DBSchemas>
   //
   //
 
+  async run(
+    sql: string,
+    values?: (string | number | null)[] | undefined,
+  ): Promise<number | null> {
+    const result = await this.driver.query(sql, values);
+    return result.rowCount!;
+  }
+
+  //
+  //
+
   async insert<
     K extends keyof Schemas,
     T extends Schemas[K],

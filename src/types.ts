@@ -35,6 +35,19 @@ export interface IDBClient {
     sql: string,
     values?: (string | number | null)[] | undefined,
   ) => Promise<R | undefined>;
+
+  /**
+   * Executes a SQL statement and returns the number of rows afected.
+   *
+   * Needed for SQLite.
+   * @param sql - The SQL query to execute.
+   * @param values - Optional values to be used in the query.
+   * @returns A promise that resolves to the number of rows affected.
+   */
+  run: (
+    sql: string,
+    values?: (string | number | null)[] | undefined,
+  ) => Promise<number | null>;
 }
 
 //
