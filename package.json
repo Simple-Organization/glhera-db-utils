@@ -1,0 +1,35 @@
+{
+  "name": "glhera-db-utils",
+  "version": "1.0.0-next.0",
+  "author": "Simple Organization",
+  "scripts": {
+    "build": "tsc && rollup -c && tsx esbuild.ts",
+    "format": "prettier --write \"src/**/*.ts\" \"tests/**/*.ts\"",
+    "test": "playwright test",
+    "prepack": "pnpm build"
+  },
+  "main": "dist/index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Simple-Organization/glhera-db-utils.git"
+  },
+  "bugs": "https://github.com/Simple-Organization/glhera-db-utils/issues",
+  "license": "MIT",
+  "devDependencies": {
+    "@playwright/test": "^1.46.1",
+    "@types/node": "^22.4.0",
+    "esbuild": "^0.23.1",
+    "prettier": "^3.3.3",
+    "rollup": "^4.21.0",
+    "rollup-plugin-dts": "^6.1.1",
+    "tsx": "^4.17.0",
+    "typescript": "^5.5.4"
+  },
+  "files": [
+    "dist/index.d.ts",
+    "dist/index.js"
+  ],
+  "types": "dist/index.d.ts",
+  "type": "module",
+  "packageManager": "pnpm@9.6.0"
+}
