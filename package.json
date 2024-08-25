@@ -16,6 +16,7 @@
   "bugs": "https://github.com/Simple-Organization/glhera-db-utils/issues",
   "license": "MIT",
   "devDependencies": {
+    "@electric-sql/pglite": "^0.2.3",
     "@playwright/test": "^1.46.1",
     "@types/node": "^22.4.0",
     "@types/pg": "^8.11.6",
