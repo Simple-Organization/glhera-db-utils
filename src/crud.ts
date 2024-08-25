@@ -86,21 +86,21 @@ export function generateInsertSQL(
   return [sql, values];
 }
 
-/**
- * Insert a row in the database
- */
-export async function insertIntoDB<T = any>(
-  client: pg.Client,
-  table: string,
-  data: DBObject,
-  returning: string[] = [],
-): Promise<T> {
-  const [sql, values] = generateInsertSQL(table, data, returning);
+// /**
+//  * Insert a row in the database
+//  */
+// export async function insertIntoDB<T = any>(
+//   client: pg.Client,
+//   table: string,
+//   data: DBObject,
+//   returning: string[] = [],
+// ): Promise<T> {
+//   const [sql, values] = generateInsertSQL(table, data, returning);
 
-  const result = await client.query(sql, values);
+//   const result = await client.query(sql, values);
 
-  return result.rows[0] as any;
-}
+//   return result.rows[0] as any;
+// }
 
 /**
  * Generate an update SQL query
@@ -130,16 +130,16 @@ export function generateUpdateSQL(
   return [sql, [...values, ...whereValues]];
 }
 
-/**
- * Update a row in the database
- */
-export function updateDB(
-  client: pg.Client,
-  table: string,
-  data: DBObject,
-  where: DBObject,
-): Promise<pg.QueryResult<any>> {
-  const [sql, values] = generateUpdateSQL(table, data, where);
+// /**
+//  * Update a row in the database
+//  */
+// export function updateDB(
+//   client: pg.Client,
+//   table: string,
+//   data: DBObject,
+//   where: DBObject,
+// ): Promise<pg.QueryResult<any>> {
+//   const [sql, values] = generateUpdateSQL(table, data, where);
 
-  return client.query(sql, values);
-}
+//   return client.query(sql, values);
+// }

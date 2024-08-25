@@ -1,15 +1,47 @@
 //
 //
 
+export type DBSchemas = Record<string, Record<string, any>>;
+
+//
+//
+
+export type ParserValidator<Schemas extends DBSchemas> = <
+  K extends keyof Schemas,
+  T extends Schemas[K],
+>(
+  table: K,
+  values: any,
+) => T;
+
+//
+//
+
 export interface IDBClient {
-  //
-  query: (sql: string, values?: any[]) => Promise<any[]>;
+  /**
+   * Executes a SQL query and returns the result as an array of rows.
+   * @param sql - The SQL query to execute.
+   * @param values - Optional values to be used in the query.
+   * @returns A promise that resolves to an array of rows.
+   */
+  rows: <R>(
+    sql: string,
+    values?: (string | number | null)[] | undefined,
+  ) => Promise<R[]>;
+
+  /**
+   * Executes a SQL query and returns a single row.
+   *
+   * May throw an error if multiple rows are returned depending on the implemetation.
+   * @param sql - The SQL query to execute.
+   * @param values - Optional values to be used in the query.
+   * @returns A promise that resolves to a single row or undefined if no row is found.
+   */
+  single: <R>(
+    sql: string,
+    values?: (string | number | null)[] | undefined,
+  ) => Promise<R>;
 }
-
-//
-//
-
-type TypeofDBSchemas = typeof db_schemas;
 
 //
 //
@@ -17,31 +49,7 @@ type TypeofDBSchemas = typeof db_schemas;
 /**
  * Represents a database instance.
  */
-export interface DBInstance {
-  /**
-   * Executes a SQL query and returns the result as an array of rows.
-   * @param sql - The SQL query to execute.
-   * @param values - Optional values to be used in the query.
-   * @returns A promise that resolves to an array of rows.
-   */
-  rows<T = any>(sql: string, values?: any[]): Promise<T[]>;
-
-  /**
-   * Executes a SQL query and returns a single row.
-   * @param sql - The SQL query to execute.
-   * @param values - Optional values to be used in the query.
-   * @returns A promise that resolves to a single row or undefined if no row is found.
-   */
-  single<T = any>(sql: string, values?: any[]): Promise<T | undefined>;
-
-  /**
-   * Executes a SQL query using the underlying `pg.Client` object.
-   * @param sql - The SQL query to execute.
-   * @param values - Optional values to be used in the query.
-   * @returns A promise that resolves to the result of the query.
-   */
-  query: pg.Client['query'];
-
+export interface DBInstance<Schemas extends DBSchemas> extends IDBClient {
   /**
    * Inserts a new row into the specified table and returns the inserted row.
    * @param table - The name of the table to insert into.
@@ -50,10 +58,10 @@ export interface DBInstance {
    * @returns A promise that resolves to the inserted row.
    */
   insert<
-    K extends keyof TypeofDBSchemas,
-    T extends Infer<TypeofDBSchemas[K]>,
-    I extends keyof Infer<TypeofDBSchemas[K]>,
-    G extends Pick<Infer<TypeofDBSchemas[K]>, I>,
+    K extends keyof Schemas,
+    T extends Schemas[K],
+    I extends keyof Schemas[K],
+    G extends Pick<Schemas[K], I>,
   >(
     table: K,
     values: T,
@@ -67,12 +75,9 @@ export interface DBInstance {
    * @param where - An object representing the conditions for the update operation.
    * @returns A promise that resolves to the result of the update operation.
    */
-  update<
-    K extends keyof TypeofDBSchemas,
-    T extends Partial<Infer<TypeofDBSchemas[K]>>,
-  >(
+  update<K extends keyof Schemas, T extends Partial<Schemas[K]>>(
     table: K,
     data: T,
     where: T,
-  ): Promise<pg.QueryResult<any>>;
+  ): Promise<unknown>;
 }
