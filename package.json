@@ -36,7 +36,13 @@
   },
   "files": [
     "dist/index.d.ts",
-    "dist/index.js"
+    "dist/index.js",
+    "pg/index.d.ts",
+    "pg/index.js",
+    "pglite/index.d.ts",
+    "pglite/index.js",
+    "better-sqlite3/index.d.ts",
+    "better-sqlite3/index.js"
   ],
   "exports": {
     ".": {
