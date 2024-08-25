@@ -86,7 +86,11 @@ const pgDB = new PGDBInstance<InferTypes<typeof dbSchemasInsert>>(
 );
 ```
 
-Notas que é necessário criar um `dbSchemasUpdate` que seja `partial` para essa operação
+### Notas
+
+> É necessário criar um `dbSchemasUpdate` que seja `partial` para essa operação
+
+> A tipagem para o `Zod` (ou outra lib) para insert é que o `id` se é autoincrements precisa ser `.nullish()` para que o TypeScript não fique reclamando em cada insert por não inserir o `id`
 
 ## ROADMAP
 
@@ -94,3 +98,14 @@ Notas que é necessário criar um `dbSchemasUpdate` que seja `partial` para essa
   - `pglite`
   - `better-sqlite3`
   - `mysql2`
+
+## Tests
+
+Para poder testar essa aplicação, é necessário definir as variáveis de ambiente para o `postgres`
+
+```env
+PG_USER=
+PG_PASSWORD=
+PG_HOST=
+PG_DATABASE=
+```

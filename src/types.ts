@@ -53,13 +53,13 @@ export interface DBInstance<Schemas extends DBSchemas> extends IDBClient {
    */
   insert<
     K extends keyof Schemas,
-    T extends Schemas[K],
-    I extends keyof Schemas[K],
-    G extends Pick<Schemas[K], I>,
+    V extends Schemas[K],
+    R extends keyof Schemas[K],
+    G extends Pick<Schemas[K], R>,
   >(
     table: K,
-    values: T,
-    returning?: readonly I[],
+    values: V,
+    returning?: readonly R[],
   ): Promise<G>;
 
   /**
@@ -69,9 +69,13 @@ export interface DBInstance<Schemas extends DBSchemas> extends IDBClient {
    * @param where - An object representing the conditions for the update operation.
    * @returns A promise that resolves to the result of the update operation.
    */
-  update<K extends keyof Schemas, T extends Partial<Schemas[K]>>(
+  update<
+    K extends keyof Schemas,
+    D extends Partial<Schemas[K]>,
+    W extends Partial<Schemas[K]>,
+  >(
     table: K,
-    data: T,
-    where: T,
-  ): Promise<unknown>;
+    data: D,
+    where: W,
+  ): Promise<number | null>;
 }

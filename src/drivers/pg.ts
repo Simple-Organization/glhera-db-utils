@@ -1,6 +1,6 @@
 import { generateInsertSQL, generateUpdateSQL } from '../crud';
-import { DBInstance, DBSchemas, ParserValidator } from '../types';
-import pg from 'pg';
+import type { DBInstance, DBSchemas, ParserValidator } from '../types';
+import type pg from 'pg';
 
 //
 //
@@ -85,11 +85,11 @@ export class PGDBInstance<Schemas extends DBSchemas>
   //
   //
 
-  async update<K extends keyof Schemas, T extends Partial<Schemas[K]>>(
-    table: K,
-    data: T,
-    where: T,
-  ): Promise<unknown> {
+  async update<
+    K extends keyof Schemas,
+    D extends Partial<Schemas[K]>,
+    W extends Partial<Schemas[K]>,
+  >(table: K, data: D, where: W): Promise<number | null> {
     let parsedData: any;
     let parsedWhere: any;
 
@@ -105,6 +105,6 @@ export class PGDBInstance<Schemas extends DBSchemas>
 
     const result = await this.driver.query(sql, dbValues);
 
-    return result;
+    return result.rowCount;
   }
 }

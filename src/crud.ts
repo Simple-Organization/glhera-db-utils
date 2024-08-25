@@ -79,7 +79,7 @@ export function generateInsertSQL(
     ', ',
   )}) VALUES (${placeholders})`;
 
-  if (returning.length) {
+  if (Array.isArray(returning) && returning.length) {
     sql += ` RETURNING ${returning.join(', ')}`;
   }
 
